@@ -9,13 +9,15 @@ class Segment {
     includes(point) {
         return this.p1.equals(point) || this.p2.equals(point)
     }
-    draw(ctx, { color = "black", width = 2, outline = false } = {}) {
+    draw(ctx, { color = "black", width = 2, outline = false, dash = [] } = {}) {
         ctx.strokeStyle = "black";
         ctx.lineWidth = width;
+        ctx.setLineDash(dash)
         ctx.beginPath();
         ctx.moveTo(this.p1.x, this.p1.y);
         ctx.lineTo(this.p2.x, this.p2.y);
         ctx.stroke();
+        ctx.setLineDash([]);
 
     }
 }

@@ -10,21 +10,25 @@
 
 <body>
     <h1>world editor</h1>
-    <canvas id="myCanvas">
-    </canvas>
+    <div class="canvasContainer">
+        <canvas id="myCanvas">
+        </canvas>
+    </div>
     <div class="controls">
 
     </div>
     <script src="js/math/graph.js"></script>
+
     <script src="js/math/utils.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
     <script src="js/grapheditor.js"></script>
+    <script src="js/viewport.js"></script>
 
     <script>
 
-        myCanvas.height = 600;
-        myCanvas.width = 600;
+        myCanvas.height = 700;
+        myCanvas.width = 800;
         const ctx = myCanvas.getContext("2d");
         const p1 = new Point(300, 300);
         const p2 = new Point(400, 200);
@@ -35,11 +39,19 @@
         const s3 = new Segment(p1, p4);
         const s4 = new Segment(p2, p4);
         const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
-        const graphEditor = new GraphEditor(myCanvas, graph);
+        const viewport = new ViewPort(myCanvas)
+        const graphEditor = new GraphEditor(viewport, graph);
         animate();
         function animate() {
             ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+            ctx.save();
+
+            ctx.scale(1 / viewport.zoom, 1 / viewport.zoom);
+            const offset = viewport.getOffset()
+            ctx.translate(offset.x, offset.y);
+
             graphEditor.display();
+            ctx.restore();
             requestAnimationFrame(animate);
         }
     </script>

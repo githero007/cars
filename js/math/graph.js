@@ -41,8 +41,11 @@ class Graph {
     }
     removePoint(point) {
         this.points.splice(this.points.indexOf(point), 1);
-        this.segments.splice(this.getSegmentWithPoint(point), 1);
-
+        const segs = this.getSegmentWithPoint(point);
+        for (const seg of segs) {
+            this.removeSegment(seg);
+        }
+        console.log("remove point triggered")
     }
     getSegmentWithPoint(point) {
         let segs = [];
